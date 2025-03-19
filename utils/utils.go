@@ -2,6 +2,7 @@ package utils
 
 import (
 	"archive/zip"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -96,4 +97,26 @@ func ExtractZip(zipPath, tempDir string) (string, error) {
 	}
 
 	return extractDir, nil
+}
+
+func DetectHandlerFile(dir string) (string, string, error) {
+	files, err := os.ReadDir(dir)
+	if err != nil {
+		return "", "", err
+	}
+
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		switch filepath.Ext(file.Name()) {
+		case ".py":
+			return file.Name(), "python", nil
+		case ".go":
+			return file.Name(), "golang", nil
+		}
+	}
+
+	return "", "", fmt.Errorf("no valid handler file format found (expected '.py' or '.go')")
 }
