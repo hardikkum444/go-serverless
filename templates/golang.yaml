@@ -1,0 +1,29 @@
+dockerfile:
+  FROM golang:1.16.1 AS builder
+
+  WORKDIR /app
+
+  RUN if [ -f go.mod ]; then \
+        echo "Go modules found, enabling modules"; \
+        export GO111MODULE=on; \
+        go mod download; \
+      else \
+        echo "Go modules not found, disabling go modules"; \
+        export GO111MODULE=off; \
+      fi
+
+  ENV GO111MODULE=${GO111MODULE:-off}
+
+  COPY . .
+
+  RUN go build -o handler .
+
+  FROM debian:buster-slim
+
+  WORKDIR /app
+
+  COPY --from=builder /app/handler .
+
+  RUN chmod +x handler
+
+  CMD ["./handler"]
