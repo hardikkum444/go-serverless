@@ -1,5 +1,5 @@
 run:
-	go run main.go
+	@go run main.go
 
 # sending a zip file called zip_file as a parameter named code
 # the '@' symbol in curl is used to specify that the value of the parameter should be read from a file
