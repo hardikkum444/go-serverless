@@ -1,4 +1,4 @@
-dockerfile:
+dockerfile: |
   FROM golang:1.16.1 AS builder
 
   WORKDIR /app

@@ -9,7 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/api/submit", handlers.LoggingMiddleware(handlers.SubmitHandler))
-	// http.HandleFunc("/api/exectute", handlers.LoggingMiddleware(handlers.ExecuteHandler))
+	http.HandleFunc("/api/execute", handlers.LoggingMiddleware(handlers.ExecuteHandler))
 
 	log.Println("serverless system running on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
