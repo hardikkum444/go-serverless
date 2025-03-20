@@ -12,7 +12,7 @@ func main() {
 	http.HandleFunc("/api/execute", handlers.LoggingMiddleware(handlers.ExecuteHandler))
 
 	log.Println("serverless system running on :8080")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:8080", nil); err != nil {
 		log.Fatalf("failed to start server: %v\n", err)
 	}
 }
