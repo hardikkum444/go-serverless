@@ -33,7 +33,7 @@ func BuildDockerImage(dir, language, handlerfile string) (string, error) {
 	}
 
 	// writing the dockerfile to the directory
-	dockerfilepath := filepath.Join(dir, "DockerFile")
+	dockerfilepath := filepath.Join(dir, "Dockerfile")
 	if err = os.WriteFile(dockerfilepath, []byte(dockerfilecontent), 0644); err != nil {
 		return "", fmt.Errorf("failed to write Dockerfile: %v", err)
 	}
