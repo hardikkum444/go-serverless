@@ -66,7 +66,7 @@ func SubmitHandler(w http.ResponseWriter, r *http.Request) {
 
 	imageID, err := docker.BuildDockerImage(extractDir, language, handlerFile)
 	if err != nil {
-		http.Error(w, "failed to build docker image", http.StatusInternalServerError)
+		http.Error(w, "failed to build docker image"+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -75,4 +75,27 @@ func SubmitHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(fmt.Sprintf("Docker image built successfully. Image ID: %s\n Function ID %s\n", imageID, functionID)))
+}
+
+func ExecuteHandler(w http.ResponseWriter, r *http.Request) {
+	functionID := r.URL.Query().Get("functionID")
+	if functionID == "" {
+		http.Error(w, "Function ID (fn) is required", http.StatusBadRequest)
+		return
+	}
+
+	imageID, ok := imageStore[functionID]
+	if !ok {
+		http.Error(w, "function ID not found", http.StatusNotFound)
+		return
+	}
+
+	output, err := docker.RunDockerContainer(imageID)
+	if err != nil {
+		http.Error(w, "failed to run docker container", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(fmt.Sprintf("Output: %s\n", output)))
 }
