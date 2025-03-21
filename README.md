@@ -61,3 +61,15 @@ The platform consists of the following components:
     make execute functionID=<functionID>
 
 Make sure to replace <IP> in the Makefile with the correct domain or IP address of your server.
+
+Make sure to replace <IP> in the Makefile with the correct domain or IP address of your server.
+
+## Grafana and Prometheus Dashboard Setup
+
+Below are the images of the Grafana and Prometheus dashboard setup for the go-serverless platform:
+
+### Grafana Dashboard
+![Grafana Dashboard](assets/go-serverless-graphana.png)
+
+### Prometheus Dashboard
+![Prometheus Dashboard](assets/go-serverless-prometheus.png)
