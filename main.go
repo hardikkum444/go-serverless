@@ -15,13 +15,13 @@ func main() {
 
 	m.devices.Set(float64(len(Dvs)))
 
-	promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
+	// promHandler := promhttp.HandlerFor(reg, promhttp.HandlerOpts{})
 
 	http.HandleFunc("/api/submit", handlers.LoggingMiddleware(handlers.SubmitHandler))
 	http.HandleFunc("/api/execute", handlers.LoggingMiddleware(handlers.ExecuteHandler))
 
 	http.HandleFunc("/server/devices", GetDevice)
-	http.Handle("/server/metrics", promHandler)
+	http.Handle("/metrics", promhttp.Handler())
 
 	log.Println("serverless system running on :8080")
 	if err := http.ListenAndServe("0.0.0.0:8080", nil); err != nil {
